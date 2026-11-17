@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>web-alarm-timer demo</title>
+<style>body{font:16px system-ui,sans-serif;max-width:520px;margin:40px auto;padding:0 16px}#t{font-size:64px;font-weight:700;font-variant-numeric:tabular-nums}button,input{font:inherit;padding:6px 12px;margin:4px 2px}</style>
+</head>
+<body>
+<h1>Countdown</h1>
+<div id="t">5:00</div>
+<button id="start">Start</button><button id="pause">Pause</button><button id="reset">Reset</button>
+<h1>Alarm</h1>
+<input id="time" type="time" value="06:30"> <button id="set">Set alarm</button> <button id="stop">Stop</button>
+<p id="msg"></p>
+<p>Full-featured version with sounds, snooze and preset pages: <a href="https://alarmsclock.live/">alarmsclock.live</a></p>
+<script src="alarm-timer.js"></script>
+<script>
+const { Countdown, Alarm, format } = WebAlarmTimer;
+const t = Countdown(300, { onTick: s => document.getElementById('t').textContent = format(s), onDone: () => alert('Time is up!') });
+start.onclick = () => t.start(); pause.onclick = () => t.pause(); reset.onclick = () => t.reset();
+let a;
+set.onclick = () => { if (a) a.stop(); a = Alarm(time.value, { onRing: () => msg.textContent = 'Ringing! Press Stop.' }); msg.textContent = 'Alarm set for ' + a.set().toLocaleString(); };
+stop.onclick = () => { if (a) a.stop(); msg.textContent = 'Stopped.'; };
+</script>
+</body>
+</html>
